@@ -2,12 +2,12 @@
 
 # Ledgerly
 
-**Plataforma institucional de crédito privado para PYMES**
+**Institutional private credit platform for SMEs**
 
-Un LOS/LMS (Loan Origination & Servicing System) completo — no un dashboard con
-gráficas, sino el ciclo de vida entero de un crédito: originación, scoring,
-comité, dispersión, ledger contable en doble partida, cobranza y monitoreo de
-cartera, con persistencia real en base de datos.
+A complete LOS/LMS (Loan Origination & Servicing System) — not a dashboard with
+charts, but the entire lifecycle of a loan: origination, scoring, committee,
+disbursement, double-entry accounting ledger, collections and portfolio
+monitoring, with real persistence in a database.
 
 [![React](https://img.shields.io/badge/React-18-61DAFB?logo=react&logoColor=white&labelColor=20232a)](https://react.dev)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
@@ -15,158 +15,157 @@ cartera, con persistencia real en base de datos.
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?logo=tailwind-css&logoColor=white)](https://tailwindcss.com)
 [![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%7C%20Auth%20%7C%20Storage%20%7C%20Realtime-3ECF8E?logo=supabase&logoColor=white)](https://supabase.com)
 
-![Dashboard de Ledgerly](public/Preview.png)
+![Ledgerly Dashboard](public/Preview.png)
 
 </div>
 
-## Contenido
+## Contents
 
-- [¿Qué es esto?](#qué-es-esto)
-- [Funcionalidad](#funcionalidad)
+- [What is this?](#what-is-this)
+- [Features](#features)
 - [Stack](#stack)
-- [Modelo de datos](#modelo-de-datos)
-- [Cómo correrlo](#cómo-correrlo)
-- [Estructura del proyecto](#estructura-del-proyecto)
-- [Contexto para desarrollo asistido por IA](#contexto-para-desarrollo-asistido-por-ia)
+- [Data model](#data-model)
+- [How to run it](#how-to-run-it)
+- [Project structure](#project-structure)
+- [Context for AI-assisted development](#context-for-ai-assisted-development)
 
-## ¿Qué es esto?
+## What is this?
 
-Ledgerly simula una SOFOM institucional que financia PYMES mexicanas mediante
-garantía inmobiliaria y pagaré, con fondeo propio a través de una línea
-revolvente bancaria. El objetivo del proyecto fue construir el sistema
-operativo completo detrás de ese negocio — no una demo visual, sino un flujo
-real donde cada pantalla lee y escribe contra una base de datos con reglas de
-negocio, seguridad a nivel de fila y trazabilidad contable de verdad.
+Ledgerly simulates an institutional SOFOM that finances Mexican SMEs through
+real estate collateral and promissory notes, with proprietary funding through
+a revolving bank credit line. The goal of the project was to build the
+complete operating system behind that business — not a visual demo, but a
+real flow where every screen reads from and writes to a database with
+business rules, row-level security and genuine accounting traceability.
 
-Esto significa que las acciones tienen consecuencias reales dentro del
-sistema: aprobar un crédito en comité lo mueve a dispersión, dispersar un
-crédito genera automáticamente sus asientos contables en doble partida
-(carga a cartera vigente, abono a bancos), y todo reporte financiero se
-construye a partir de esos mismos datos — nunca de números inventados en el
-frontend.
+This means actions have real consequences within the system: approving a
+loan in committee moves it to disbursement, disbursing a loan automatically
+generates its double-entry accounting entries (debit to current portfolio,
+credit to banks), and every financial report is built from that same data —
+never from numbers invented on the frontend.
 
-## Funcionalidad
+## Features
 
-**Originación y underwriting**
-- Pipeline de solicitudes con etapas (evaluación → análisis → comité →
-  aprobado/rechazado → dispersado) y expediente digital por solicitud.
-- Scoring compuesto (KYC, capacidad de pago, garantía, legal, rentabilidad) y
-  clasificación de riesgo.
-- Validaciones PLD contra listas de sanciones (OFAC, ONU, SAT 69-B, PEP,
-  beneficiario controlador, noticias negativas).
-- Comité de crédito con votos, condiciones aprobadas y bitácora de decisión.
-- Dispersión con flujo de fondeo, control dual y generación automática de
-  asientos contables.
+**Origination and underwriting**
+- Application pipeline with stages (evaluation → analysis → committee →
+  approved/rejected → disbursed) and a digital file per application.
+- Composite scoring (KYC, payment capacity, collateral, legal, profitability)
+  and risk classification.
+- AML/CFT validations against sanctions lists (OFAC, UN, SAT 69-B, PEP,
+  beneficial owner, adverse media).
+- Credit committee with votes, approved conditions and decision log.
+- Disbursement with funding flow, dual control and automatic generation of
+  accounting entries.
 
-**Cartera y cobranza**
-- Vista 360° de cada crédito: condiciones, tabla de amortización, estado de
-  cuenta descargable en PDF.
-- Cobranza por buckets de mora (temprana, intensiva, jurídica) con alertas
-  automáticas, bitácora de acciones y generación de convenios de pago.
-- Documentos recurrentes por crédito (estados financieros, opinión 32-D,
-  avalúos) con alertas de vencimiento.
+**Portfolio and collections**
+- 360° view of each loan: conditions, amortization schedule, downloadable
+  account statement in PDF.
+- Collections by delinquency bucket (early, intensive, legal) with automatic
+  alerts, action log and payment agreement generation.
+- Recurring documents per loan (financial statements, 32-D opinion,
+  appraisals) with expiration alerts.
 
-**Contabilidad y reportes**
-- Ledger inmutable en doble partida con plan de cuentas institucional,
-  conciliación SPEI y libro mayor.
-- Provisiones automáticas por bucket de mora (1% / 5% / 15% / 35% / 75%).
-- **16 reportes reales** (financieros, de cartera, regulatorios y operativos)
-  que se generan como PDF con formato institucional tipo factura — folio,
-  periodo, resumen en tarjetas y tablas — a partir de datos reales, con
-  histórico de cada descarga.
+**Accounting and reports**
+- Immutable double-entry ledger with an institutional chart of accounts,
+  SPEI reconciliation and general ledger.
+- Automatic provisions by delinquency bucket (1% / 5% / 15% / 35% / 75%).
+- **16 real reports** (financial, portfolio, regulatory and operational) that
+  are generated as PDFs with an institutional, invoice-like format — folio,
+  period, summary cards and tables — from real data, with a history of every
+  download.
 
-**Riesgo**
-- Concentración por cliente/sector (índice de Herfindahl), análisis de
-  vintage/cosechas, early-warning indicators y escenarios de stress testing
-  (choques de tasa, deterioro de garantía, depreciación cambiaria).
+**Risk**
+- Concentration by client/sector (Herfindahl index), vintage/cohort analysis,
+  early-warning indicators and stress-testing scenarios (rate shocks,
+  collateral deterioration, currency depreciation).
 
-**Plataforma**
-- Login real con Supabase Auth (sesión persistente) y foto de perfil en
+**Platform**
+- Real login with Supabase Auth (persistent session) and profile photo in
   Supabase Storage.
-- Notificaciones en tiempo real (Supabase Realtime) cuando cambia cartera,
-  documentos o el pipeline de solicitudes.
-- Sistema de notificaciones toast reutilizable en toda la app.
-- Row Level Security en todas las tablas operativas.
+- Real-time notifications (Supabase Realtime) when the portfolio, documents
+  or the application pipeline change.
+- Reusable toast notification system throughout the app.
+- Row Level Security on all operational tables.
 
 ## Stack
 
-| Capa | Tecnología |
+| Layer | Technology |
 |---|---|
 | Frontend | React 18 · TypeScript · Vite · Tailwind CSS |
-| Componentes de datos | Material UI (solo en el Dashboard) · Recharts |
+| Data components | Material UI (Dashboard only) · Recharts |
 | Backend | Supabase — Postgres, Auth, Storage, Realtime, Row Level Security |
-| Documentos | jsPDF + jspdf-autotable (PDFs con membrete institucional) |
-| Enrutamiento | React Router v6 |
+| Documents | jsPDF + jspdf-autotable (PDFs with institutional letterhead) |
+| Routing | React Router v6 |
 
-## Modelo de datos
+## Data model
 
-La base de datos (Postgres vía Supabase) modela el negocio con:
+The database (Postgres via Supabase) models the business with:
 
-- **Contabilidad de doble partida real**: `cuentas_contables` (plan de
-  cuentas) + `asientos_contables` (ledger inmutable) + `v_libro_mayor` (saldos
-  derivados) — nunca se guarda un "saldo" directamente, siempre se calcula
-  desde los movimientos.
-- **Vistas materializadas para cada pantalla**: KPIs de dashboard, aging de
-  cartera, concentración, vintage, alertas de cobranza — la UI nunca agrega
-  datos client-side que debería calcular la base de datos.
-- **RLS en todas las tablas operativas**: lectura pública de demo, escritura
-  restringida a usuarios autenticados.
-- Detalle completo del esquema, las migraciones y cómo reproducirlo en
+- **Real double-entry accounting**: `cuentas_contables` (chart of accounts)
+  + `asientos_contables` (immutable ledger) + `v_libro_mayor` (derived
+  balances) — a "balance" is never stored directly, it is always calculated
+  from the movements.
+- **Materialized views for each screen**: dashboard KPIs, portfolio aging,
+  concentration, vintage, collections alerts — the UI never aggregates
+  data client-side that the database should be calculating.
+- **RLS on all operational tables**: public read access for the demo,
+  write access restricted to authenticated users.
+- Full schema details, migrations and how to reproduce it in
   [`supabase/README.md`](supabase/README.md).
 
-## Cómo correrlo
+## How to run it
 
 ```bash
 npm install
-cp .env.example .env.local   # completa con tu URL y anon key de Supabase
+cp .env.example .env.local   # fill in with your Supabase URL and anon key
 npm run dev
 ```
 
-| Comando | Qué hace |
+| Command | What it does |
 |---|---|
-| `npm run dev` | Servidor de desarrollo (Vite) |
-| `npm run build` | Type-check (`tsc`) + build de producción |
-| `npm run preview` | Sirve el build de producción localmente |
+| `npm run dev` | Development server (Vite) |
+| `npm run build` | Type-check (`tsc`) + production build |
+| `npm run preview` | Serves the production build locally |
 
-## Estructura del proyecto
+## Project structure
 
 ```
 src/
-├── pages/          # Una página por ruta (Dashboard, Solicitudes, Cartera, Reportes...)
-├── components/      # Componentes compartidos (Sidebar, Topbar, Logo, ui/*)
+├── pages/          # One page per route (Dashboard, Solicitudes, Cartera, Reportes...)
+├── components/      # Shared components (Sidebar, Topbar, Logo, ui/*)
 ├── hooks/           # useAuth, useProfile, useToast, useFetch
 ├── lib/             # api.ts (Supabase), format.ts, pdf.ts, types.ts
-└── layouts/         # AuthLayout (login) y layout autenticado
+└── layouts/         # AuthLayout (login) and authenticated layout
 
 supabase/
-├── migrations/       # Esquema versionado, aplicado con `supabase db push`
-├── seed*.sql        # Datos iniciales (clientes, créditos, fondeo, pipeline)
-└── README.md        # Cómo reproducir la base de datos completa
+├── migrations/       # Versioned schema, applied with `supabase db push`
+├── seed*.sql        # Seed data (clients, loans, funding, pipeline)
+└── README.md        # How to reproduce the full database
 ```
 
-## Contexto para desarrollo asistido por IA
+## Context for AI-assisted development
 
-Los siguientes archivos **no son parte de la aplicación** — el frontend nunca
-los importa ni los ejecuta. Son contexto de dominio pensado para trabajar en
-este repo con un asistente de código con IA (Claude Code):
+The following files **are not part of the application** — the frontend never
+imports or executes them. They are domain context meant for working in this
+repo with an AI coding assistant (Claude Code):
 
-| Archivo / carpeta | Propósito |
+| File / folder | Purpose |
 |---|---|
-| `CLAUDE.md` | Instrucciones de proyecto que el asistente carga automáticamente: identidad institucional, cómo debe pensar (CRO/CFO/Head of Credit), qué debe analizar siempre en cada tarea. |
-| `knowledge/` | Glosario y reglas de negocio de dominio (contabilidad, cobranza, compliance, scoring, tesorería, rentabilidad) que sirven de referencia rápida al asistente. |
-| `agents/` | Definición de especialidades (riesgo de crédito, cobranza, jurídico, tesorería) pensadas como subagentes enfocados en un dominio. |
-| `memory/` | Bitácora de decisiones institucionales a registrar (excepciones, ajustes de política, decisiones de comité). |
-| `scenarios/` | Casos de estrés a considerar en análisis de riesgo (choques de tasa, deterioro de garantía, depreciación cambiaria). |
+| `CLAUDE.md` | Project instructions the assistant loads automatically: institutional identity, how it should think (CRO/CFO/Head of Credit), what it must always analyze in each task. |
+| `knowledge/` | Domain glossary and business rules (accounting, collections, compliance, scoring, treasury, profitability) that serve as a quick reference for the assistant. |
+| `agents/` | Specialty definitions (credit risk, collections, legal, treasury) designed as subagents focused on a single domain. |
+| `memory/` | Log of institutional decisions to be recorded (exceptions, policy adjustments, committee decisions). |
+| `scenarios/` | Stress cases to consider in risk analysis (rate shocks, collateral deterioration, currency depreciation). |
 
-La idea es que cualquier tarea de desarrollo sobre este repo —agregar un
-reporte, ajustar el scoring, revisar una política de cobranza— se resuelva con
-el mismo criterio institucional que usaría un equipo de riesgo real, en vez de
-depender de que cada sesión repita ese contexto desde cero.
+The idea is that any development task on this repo — adding a report,
+adjusting scoring, reviewing a collections policy — is resolved with the
+same institutional judgment a real risk team would use, instead of relying
+on each session repeating that context from scratch.
 
 ---
 
 <div align="center">
 
-Hecho por **Fernando Agredano**
+Made by **Fernando Agredano**
 
 </div>
